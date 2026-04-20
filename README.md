@@ -25,6 +25,16 @@ Magento's built-in XML sitemap is for Google. This module is for **humans** — 
 
 ---
 
+## Preview
+
+### Admin Configuration
+
+![Admin Configuration — Stores → Configuration → Panth Infotech → HTML Sitemap](docs/admin-configuration.png)
+
+*All 15 toggles at **Stores → Configuration → Panth Infotech → HTML Sitemap** — enable master switch, show categories (with max-depth limit), show products (with sort order, URL structure, and pagination), show CMS pages (with exclude list), show store switcher, show custom links, meta title / description, client-side search field, and products-per-page (configurable 50–2000, default 500 — the sitemap handles 100k+ products via `?p=N` pagination).*
+
+---
+
 ## Need Custom Magento 2 Development?
 
 <p align="center">
