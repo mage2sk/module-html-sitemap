@@ -2,7 +2,7 @@
     "name": "mage2kishan/module-html-sitemap",
     "description": "Theme-agnostic HTML sitemap page for Magento 2 (Hyva + Luma). Renders categories (tree), products (grid), CMS pages, store switcher, and custom links at /sitemap with a built-in client-side search. Extracted from Panth_AdvancedSEO for independent installation.",
     "type": "magento2-module",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "license": "proprietary",
     "keywords": [
         "magento2",

@@ -31,7 +31,45 @@ Magento's built-in XML sitemap is for Google. This module is for **humans** — 
 
 ![Admin Configuration — Stores → Configuration → Panth Infotech → HTML Sitemap](docs/admin-configuration.png)
 
-*All 15 toggles at **Stores → Configuration → Panth Infotech → HTML Sitemap** — enable master switch, show categories (with max-depth limit), show products (with sort order, URL structure, and pagination), show CMS pages (with exclude list), show store switcher, show custom links, meta title / description, client-side search field, and products-per-page (configurable 50–2000, default 500 — the sitemap handles 100k+ products via `?p=N` pagination).*
+*All 15 toggles at **Stores → Configuration → Panth Infotech → HTML Sitemap** — master switch, show categories (with max-depth limit), show products (with sort order, URL structure, pagination), show CMS pages (with exclude list), show store switcher, show custom links, meta title / description, client-side search field, and **products-per-page** (50–2000, default 500 — the sitemap handles 100k+ products via `?p=N` pagination).*
+
+---
+
+### Frontend — Hyvä theme
+
+<table>
+<tr>
+<td width="33%" align="center"><b>Hero + Categories tree</b></td>
+<td width="33%" align="center"><b>Product grid</b></td>
+<td width="33%" align="center"><b>CMS pages</b></td>
+</tr>
+<tr>
+<td><a href="docs/hyva-hero.png"><img src="docs/hyva-hero.png" alt="Hyvä — hero banner + category tree with 'On this page' sidebar"/></a></td>
+<td><a href="docs/hyva-products.png"><img src="docs/hyva-products.png" alt="Hyvä — paginated product grid with image, name, price"/></a></td>
+<td><a href="docs/hyva-pages.png"><img src="docs/hyva-pages.png" alt="Hyvä — CMS pages section and footer"/></a></td>
+</tr>
+</table>
+
+*Native Hyvä styling — gradient hero with live counts (categories / products / pages), sticky "On this page" sidebar, and a scoped stylesheet so nothing leaks into the theme's Tailwind bundle.*
+
+---
+
+### Frontend — Luma theme
+
+<table>
+<tr>
+<td width="33%" align="center"><b>Hero + Categories tree</b></td>
+<td width="33%" align="center"><b>Product grid</b></td>
+<td width="33%" align="center"><b>CMS pages</b></td>
+</tr>
+<tr>
+<td><a href="docs/luma-hero.png"><img src="docs/luma-hero.png" alt="Luma — hero banner + category tree with 'On this page' sidebar"/></a></td>
+<td><a href="docs/luma-products.png"><img src="docs/luma-products.png" alt="Luma — paginated product grid"/></a></td>
+<td><a href="docs/luma-pages.png"><img src="docs/luma-pages.png" alt="Luma — CMS pages section and footer"/></a></td>
+</tr>
+</table>
+
+*Identical markup on Luma — the template is plain PHP + vanilla JS + prefix-scoped CSS (`.panth-htmlsitemap`), so the same rendering logic produces the same output under Luma's RequireJS layer without any theme-specific overrides.*
 
 ---
 

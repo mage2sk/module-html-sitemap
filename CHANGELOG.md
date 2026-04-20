@@ -4,6 +4,18 @@ All notable changes to this extension are documented here. The format is
 based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.0.3]
+
+### Added
+- **Full Preview gallery** in README — 7 screenshots organised into three
+  sections: Admin Configuration, Frontend — Hyvä theme, Frontend — Luma
+  theme. Each theme section is a 3-column table showing the hero + tree,
+  product grid, and CMS-pages block side by side, demonstrating that the
+  theme-agnostic template produces identical output on both stores.
+- All screenshots resized to 1400px max width (via `sips`) and polished
+  with a 1px `#e5e7eb` border (via ImageMagick) so they don't blend into
+  the white GitHub page background. Metadata stripped for privacy.
+
 ## [1.0.2]
 
 ### Added
