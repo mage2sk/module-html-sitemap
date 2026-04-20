@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <panth_html_sitemap>
+            <general>
+                <enabled>1</enabled>
+                <show_categories>1</show_categories>
+                <max_category_depth>0</max_category_depth>
+                <show_products>1</show_products>
+                <product_sort_order>name</product_sort_order>
+                <product_url_structure>short</product_url_structure>
+                <show_cms_pages>1</show_cms_pages>
+                <show_stores>0</show_stores>
+                <show_custom_links>0</show_custom_links>
+                <custom_links></custom_links>
+                <meta_title>Site Map</meta_title>
+                <meta_description></meta_description>
+                <exclude_cms_pages></exclude_cms_pages>
+                <show_search_field>0</show_search_field>
+                <products_per_page>500</products_per_page>
+            </general>
+        </panth_html_sitemap>
+    </default>
+</config>

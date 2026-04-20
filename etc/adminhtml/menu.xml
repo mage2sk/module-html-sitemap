@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Panth HTML Sitemap — Admin Menu
+ * Adds a direct link under Panth Infotech that jumps straight to the
+ * HTML Sitemap system configuration section.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Panth_HtmlSitemap::config_link"
+             title="HTML Sitemap"
+             module="Panth_HtmlSitemap"
+             sortOrder="30"
+             parent="Panth_Core::panth_extensions"
+             action="adminhtml/system_config/edit/section/panth_html_sitemap"
+             resource="Panth_HtmlSitemap::config"/>
+    </menu>
+</config>

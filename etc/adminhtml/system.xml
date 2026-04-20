@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <!-- Tab `panth` is declared by Panth_Core -->
+        <section id="panth_html_sitemap" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>HTML Sitemap</label>
+            <tab>panth</tab>
+            <resource>Panth_HtmlSitemap::config</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable HTML Sitemap</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>When disabled, /sitemap returns a 404.</comment>
+                </field>
+                <field id="show_categories" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show Categories</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends><field id="enabled">1</field></depends>
+                </field>
+                <field id="max_category_depth" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Max Category Depth</label>
+                    <validate>validate-digits</validate>
+                    <comment>0 = unlimited. Limits the depth of categories shown in the tree.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                        <field id="show_categories">1</field>
+                    </depends>
+                </field>
+                <field id="show_products" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show Products</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends><field id="enabled">1</field></depends>
+                </field>
+                <field id="product_sort_order" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Sort Order</label>
+                    <source_model>Panth\HtmlSitemap\Model\Config\Source\ProductSortOrder</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                        <field id="show_products">1</field>
+                    </depends>
+                </field>
+                <field id="product_url_structure" translate="label" type="select" sortOrder="55" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product URL Structure</label>
+                    <source_model>Panth\HtmlSitemap\Model\Config\Source\ProductUrlStructure</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                        <field id="show_products">1</field>
+                    </depends>
+                </field>
+                <field id="show_cms_pages" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show CMS Pages</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends><field id="enabled">1</field></depends>
+                </field>
+                <field id="show_stores" translate="label comment" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show Store Switcher</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Display a list of all active stores on the HTML sitemap page.</comment>
+                    <depends><field id="enabled">1</field></depends>
+                </field>
+                <field id="show_custom_links" translate="label" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show Custom Links</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends><field id="enabled">1</field></depends>
+                </field>
+                <field id="custom_links" translate="label comment" type="textarea" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Custom Links</label>
+                    <comment><![CDATA[One link per line. Format: <code>URL | Label</code> (e.g. <code>https://example.com/about | About Us</code>). If no label is provided, the URL is used.]]></comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                        <field id="show_custom_links">1</field>
+                    </depends>
+                </field>
+                <field id="meta_title" translate="label comment" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Meta Title</label>
+                    <comment>Leave empty to use "Site Map" as default.</comment>
+                    <depends><field id="enabled">1</field></depends>
+                </field>
+                <field id="meta_description" translate="label" type="textarea" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Meta Description</label>
+                    <depends><field id="enabled">1</field></depends>
+                </field>
+                <field id="exclude_cms_pages" translate="label comment" type="textarea" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Exclude CMS Pages</label>
+                    <comment>Comma-separated CMS page identifiers to exclude, e.g.: privacy-policy,cookie-policy</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                        <field id="show_cms_pages">1</field>
+                    </depends>
+                </field>
+                <field id="show_search_field" translate="label" type="select" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show Search Field</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends><field id="enabled">1</field></depends>
+                </field>
+                <field id="products_per_page" translate="label comment" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Products Per Page</label>
+                    <validate>validate-digits</validate>
+                    <comment>Paginate the product list for large catalogs. Range: 50–2000. Default 500. The sitemap handles 100k+ products via pagination (?p=N).</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                        <field id="show_products">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
