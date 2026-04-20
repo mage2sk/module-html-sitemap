@@ -9,12 +9,6 @@
     <acl>
         <resources>
             <resource id="Magento_Backend::admin">
-                <resource id="Panth_Core::panth_extensions">
-                    <resource id="Panth_HtmlSitemap::config"
-                              title="HTML Sitemap"
-                              sortOrder="30"/>
-                </resource>
-
                 <resource id="Magento_Backend::stores">
                     <resource id="Magento_Backend::stores_settings">
                         <resource id="Magento_Config::config">
