@@ -43,6 +43,11 @@ class HtmlSitemapRouter implements RouterInterface
             \Magento\Framework\Url::REWRITE_REQUEST_PATH_ALIAS,
             'sitemap'
         );
+        // Update pathInfo so subsequent router-match iterations don't see
+        // 'sitemap' again and re-enter this router, looping until Magento's
+        // 100-iteration safety cap fires (HTTP 500). Mirrors the pattern in
+        // Magento's url-rewrite Router::match.
+        $request->setPathInfo('/htmlsitemap/index/index');
 
         return $this->actionFactory->create(
             \Magento\Framework\App\Action\Forward::class
