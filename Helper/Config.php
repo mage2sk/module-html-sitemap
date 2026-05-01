@@ -27,6 +27,10 @@ class Config
     public const XML_EXCLUDE_CMS_PAGES        = 'panth_html_sitemap/general/exclude_cms_pages';
     public const XML_SHOW_SEARCH_FIELD        = 'panth_html_sitemap/general/show_search_field';
     public const XML_PRODUCTS_PER_PAGE        = 'panth_html_sitemap/general/products_per_page';
+    /** Optional integrations — toggles for source modules that may or may not be installed. */
+    public const XML_SHOW_TESTIMONIALS        = 'panth_html_sitemap/general/show_testimonials';
+    public const XML_SHOW_FAQS                = 'panth_html_sitemap/general/show_faqs';
+    public const XML_SHOW_DYNAMIC_FORMS       = 'panth_html_sitemap/general/show_dynamic_forms';
 
     /** Hard floor/ceiling on products_per_page to keep the page responsive. */
     public const PER_PAGE_MIN = 50;
@@ -113,6 +117,21 @@ class Config
     public function isShowSearchField(?int $storeId = null): bool
     {
         return $this->flag(self::XML_SHOW_SEARCH_FIELD, $storeId);
+    }
+
+    public function isShowTestimonials(?int $storeId = null): bool
+    {
+        return $this->flag(self::XML_SHOW_TESTIMONIALS, $storeId);
+    }
+
+    public function isShowFaqs(?int $storeId = null): bool
+    {
+        return $this->flag(self::XML_SHOW_FAQS, $storeId);
+    }
+
+    public function isShowDynamicForms(?int $storeId = null): bool
+    {
+        return $this->flag(self::XML_SHOW_DYNAMIC_FORMS, $storeId);
     }
 
     /**

@@ -59,6 +59,24 @@
                     <comment>Display a list of all active stores on the HTML sitemap page.</comment>
                     <depends><field id="enabled">1</field></depends>
                 </field>
+                <field id="show_testimonials" translate="label comment" type="select" sortOrder="72" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show Testimonials</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Optional integration — appears only when Panth_Testimonials is installed. Otherwise the section silently renders nothing.</comment>
+                    <depends><field id="enabled">1</field></depends>
+                </field>
+                <field id="show_faqs" translate="label comment" type="select" sortOrder="74" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show FAQs</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Optional integration — appears only when Panth_Faq is installed.</comment>
+                    <depends><field id="enabled">1</field></depends>
+                </field>
+                <field id="show_dynamic_forms" translate="label comment" type="select" sortOrder="76" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show Dynamic Forms</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Optional integration — appears only when Panth_DynamicForms is installed and at least one form has form_type = page or both.</comment>
+                    <depends><field id="enabled">1</field></depends>
+                </field>
                 <field id="show_custom_links" translate="label" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Show Custom Links</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>

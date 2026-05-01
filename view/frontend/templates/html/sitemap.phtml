@@ -14,27 +14,37 @@
 /** @var \Panth\HtmlSitemap\ViewModel\HtmlSitemap $viewModel */
 $viewModel = $block->getHtmlSitemapViewModel();
 
-$showCategories  = $viewModel->isShowCategories();
-$showProducts    = $viewModel->isShowProducts();
-$showCmsPages    = $viewModel->isShowCmsPages();
-$showCustomLinks = $viewModel->isShowCustomLinks();
-$showStores      = $viewModel->isShowStores();
-$showSearchField = $viewModel->isShowSearchField();
+$showCategories     = $viewModel->isShowCategories();
+$showProducts       = $viewModel->isShowProducts();
+$showCmsPages       = $viewModel->isShowCmsPages();
+$showCustomLinks    = $viewModel->isShowCustomLinks();
+$showStores         = $viewModel->isShowStores();
+$showSearchField    = $viewModel->isShowSearchField();
+$showTestimonials   = $viewModel->isShowTestimonials();
+$showFaqs           = $viewModel->isShowFaqs();
+$showDynamicForms   = $viewModel->isShowDynamicForms();
 
-$categories  = $showCategories  ? $viewModel->getCategories()  : [];
-$products    = $showProducts    ? $viewModel->getProducts()    : [];
-$cmsPages    = $showCmsPages    ? $viewModel->getCmsPages()    : [];
-$customLinks = $showCustomLinks ? $viewModel->getCustomLinks() : [];
-$stores      = $showStores      ? $viewModel->getStores()      : [];
+$categories      = $showCategories    ? $viewModel->getCategories()    : [];
+$products        = $showProducts      ? $viewModel->getProducts()      : [];
+$cmsPages        = $showCmsPages      ? $viewModel->getCmsPages()      : [];
+$customLinks     = $showCustomLinks   ? $viewModel->getCustomLinks()   : [];
+$stores          = $showStores        ? $viewModel->getStores()        : [];
+$testimonials    = $showTestimonials  ? $viewModel->getTestimonials()  : [];
+$faqs            = $showFaqs          ? $viewModel->getFaqs()          : [];
+$dynamicForms    = $showDynamicForms  ? $viewModel->getDynamicForms()  : [];
 
-$categoryCount = $categories ? $viewModel->getCategoryCount($categories) : 0;
-$productCount  = count($products);
-$cmsCount      = count($cmsPages);
-$linkCount     = count($customLinks);
-$storeCount    = count($stores);
-$lastUpdated   = $viewModel->getLastUpdatedTimestamp();
+$categoryCount      = $categories ? $viewModel->getCategoryCount($categories) : 0;
+$productCount       = count($products);
+$cmsCount           = count($cmsPages);
+$linkCount          = count($customLinks);
+$storeCount         = count($stores);
+$testimonialCount   = count($testimonials);
+$faqCount           = count($faqs);
+$dynamicFormCount   = count($dynamicForms);
+$lastUpdated        = $viewModel->getLastUpdatedTimestamp();
 
-$hasContent = $categoryCount > 0 || $productCount > 0 || $cmsCount > 0 || $linkCount > 0 || $storeCount > 0;
+$hasContent = $categoryCount > 0 || $productCount > 0 || $cmsCount > 0 || $linkCount > 0
+    || $storeCount > 0 || $testimonialCount > 0 || $faqCount > 0 || $dynamicFormCount > 0;
 
 /**
  * Recursive category node renderer with connector-style indentation.
@@ -859,6 +869,54 @@ $renderNode = static function (array $node, \Magento\Framework\Escaper $esc) use
                             <?php foreach ($customLinks as $link): ?>
                                 <li data-sitemap-item="<?= $escaper->escapeHtmlAttr(strtolower((string) $link['label'])) ?>">
                                     <a href="<?= $escaper->escapeUrl((string) $link['url']) ?>"><?= $escaper->escapeHtml((string) $link['label']) ?></a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </section>
+                <?php endif; ?>
+
+                <?php if ($testimonialCount > 0): ?>
+                    <section id="phs-testimonials" class="panth-htmlsitemap__section" data-sitemap-section>
+                        <div class="panth-htmlsitemap__section-header">
+                            <h2 class="panth-htmlsitemap__section-title"><?= $escaper->escapeHtml((string) __('Testimonials')) ?></h2>
+                            <span class="panth-htmlsitemap__badge"><?= (int) $testimonialCount ?></span>
+                        </div>
+                        <ul class="panth-htmlsitemap__links">
+                            <?php foreach ($testimonials as $t): ?>
+                                <li data-sitemap-item="<?= $escaper->escapeHtmlAttr(strtolower((string) $t['title'])) ?>">
+                                    <a href="<?= $escaper->escapeUrl((string) $t['url']) ?>"><?= $escaper->escapeHtml((string) $t['title']) ?></a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </section>
+                <?php endif; ?>
+
+                <?php if ($faqCount > 0): ?>
+                    <section id="phs-faqs" class="panth-htmlsitemap__section" data-sitemap-section>
+                        <div class="panth-htmlsitemap__section-header">
+                            <h2 class="panth-htmlsitemap__section-title"><?= $escaper->escapeHtml((string) __('FAQs')) ?></h2>
+                            <span class="panth-htmlsitemap__badge"><?= (int) $faqCount ?></span>
+                        </div>
+                        <ul class="panth-htmlsitemap__links">
+                            <?php foreach ($faqs as $f): ?>
+                                <li data-sitemap-item="<?= $escaper->escapeHtmlAttr(strtolower((string) $f['title'])) ?>">
+                                    <a href="<?= $escaper->escapeUrl((string) $f['url']) ?>"><?= $escaper->escapeHtml((string) $f['title']) ?></a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </section>
+                <?php endif; ?>
+
+                <?php if ($dynamicFormCount > 0): ?>
+                    <section id="phs-dynamic-forms" class="panth-htmlsitemap__section" data-sitemap-section>
+                        <div class="panth-htmlsitemap__section-header">
+                            <h2 class="panth-htmlsitemap__section-title"><?= $escaper->escapeHtml((string) __('Forms')) ?></h2>
+                            <span class="panth-htmlsitemap__badge"><?= (int) $dynamicFormCount ?></span>
+                        </div>
+                        <ul class="panth-htmlsitemap__links">
+                            <?php foreach ($dynamicForms as $d): ?>
+                                <li data-sitemap-item="<?= $escaper->escapeHtmlAttr(strtolower((string) $d['title'])) ?>">
+                                    <a href="<?= $escaper->escapeUrl((string) $d['url']) ?>"><?= $escaper->escapeHtml((string) $d['title']) ?></a>
                                 </li>
                             <?php endforeach; ?>
                         </ul>

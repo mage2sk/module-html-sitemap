@@ -228,6 +228,21 @@ class HtmlSitemap implements ArgumentInterface
         return $this->config->isShowSearchField();
     }
 
+    public function isShowTestimonials(): bool
+    {
+        return $this->config->isShowTestimonials();
+    }
+
+    public function isShowFaqs(): bool
+    {
+        return $this->config->isShowFaqs();
+    }
+
+    public function isShowDynamicForms(): bool
+    {
+        return $this->config->isShowDynamicForms();
+    }
+
     /**
      * Parse the custom_links textarea config.
      *
@@ -719,6 +734,264 @@ class HtmlSitemap implements ArgumentInterface
             return $stores;
         } catch (\Throwable $e) {
             $this->logger->warning('[Panth_HtmlSitemap] stores failed: ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    // ------------------------------------------------------------------
+    //  Optional integrations — render only when source module is installed
+    // ------------------------------------------------------------------
+
+    /**
+     * Testimonials section.
+     *
+     * **Conditional**: returns [] when the `panth_testimonial` table
+     * isn't present (the source module isn't installed). Never
+     * references a `Panth_Testimonials` class — pure raw SQL through
+     * the resource connection.
+     *
+     * @return array<int, array{title: string, url: string}>
+     */
+    public function getTestimonials(): array
+    {
+        try {
+            $store    = $this->storeManager->getStore();
+            $storeId  = (int) $store->getId();
+            $baseUrl  = rtrim((string) $store->getBaseUrl(), '/') . '/';
+            $conn     = $this->resource->getConnection();
+            $table    = $this->resource->getTableName('panth_testimonial');
+            $catTable = $this->resource->getTableName('panth_testimonial_category');
+
+            if (!$conn->isTableExists($table) && !$conn->isTableExists($catTable)) {
+                return [];
+            }
+
+            $base = trim((string) ($this->config->getValue('panth_testimonials/general/base_url', $storeId)
+                ?: 'testimonials'), '/') ?: 'testimonials';
+
+            $out = [];
+
+            // Categories first (broader landing pages).
+            if ($conn->isTableExists($catTable)) {
+                $cols = $conn->describeTable($catTable);
+                $columns = ['url_key', 'name'];
+                $select = $conn->select()
+                    ->from($catTable, $columns)
+                    ->where('is_active = ?', 1)
+                    ->where('url_key IS NOT NULL')
+                    ->where('url_key != ?', '');
+                if (isset($cols['store_id'])) {
+                    $select->where('store_id IN (?)', [0, $storeId]);
+                }
+                if (isset($cols['sort_order'])) {
+                    $select->order('sort_order ASC');
+                }
+                $select->order('name ASC');
+                foreach ($conn->fetchAll($select) as $row) {
+                    $name = trim((string) ($row['name'] ?? ''));
+                    $key  = trim((string) ($row['url_key'] ?? ''));
+                    if ($name === '' || $key === '') {
+                        continue;
+                    }
+                    $out[] = [
+                        'title' => $name,
+                        'url'   => $baseUrl . $base . '/category/' . $key,
+                    ];
+                }
+            }
+
+            // Individual approved testimonials.
+            if ($conn->isTableExists($table)) {
+                $cols = $conn->describeTable($table);
+                $columns = ['url_key', 'title'];
+                $select = $conn->select()
+                    ->from($table, $columns)
+                    ->where('url_key IS NOT NULL')
+                    ->where('url_key != ?', '');
+                if (isset($cols['status'])) {
+                    $select->where('status = ?', 1);
+                }
+                if (isset($cols['store_id'])) {
+                    $select->where('store_id IN (?)', [0, $storeId]);
+                }
+                if (isset($cols['sort_order'])) {
+                    $select->order('sort_order ASC');
+                }
+                $select->order('title ASC');
+                foreach ($conn->fetchAll($select) as $row) {
+                    $title = trim((string) ($row['title'] ?? ''));
+                    $key   = trim((string) ($row['url_key'] ?? ''));
+                    if ($title === '' || $key === '') {
+                        continue;
+                    }
+                    $out[] = [
+                        'title' => $title,
+                        'url'   => $baseUrl . $base . '/' . $key,
+                    ];
+                }
+            }
+            return $out;
+        } catch (\Throwable $e) {
+            $this->logger->info('[Panth_HtmlSitemap] testimonials section failed: ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * FAQ section.
+     *
+     * **Conditional**: returns [] when neither `panth_faq_item` nor
+     * `panth_faq_category` exists.
+     *
+     * @return array<int, array{title: string, url: string}>
+     */
+    public function getFaqs(): array
+    {
+        try {
+            $store    = $this->storeManager->getStore();
+            $storeId  = (int) $store->getId();
+            $baseUrl  = rtrim((string) $store->getBaseUrl(), '/') . '/';
+            $conn     = $this->resource->getConnection();
+            $itemTable     = $this->resource->getTableName('panth_faq_item');
+            $itemStore     = $this->resource->getTableName('panth_faq_item_store');
+            $categoryTable = $this->resource->getTableName('panth_faq_category');
+
+            $hasItems      = $conn->isTableExists($itemTable);
+            $hasCategories = $conn->isTableExists($categoryTable);
+            if (!$hasItems && !$hasCategories) {
+                return [];
+            }
+            $hasItemStore = $hasItems && $conn->isTableExists($itemStore);
+
+            // Source module stores this under `panth_faq/general/faq_route`
+            // (Helper\Data::XML_PATH_FAQ_ROUTE in module-faq).
+            $base = trim((string) ($this->config->getValue('panth_faq/general/faq_route', $storeId)
+                ?: 'faq'), '/') ?: 'faq';
+
+            $out = [];
+
+            if ($hasCategories) {
+                $cols = $conn->describeTable($categoryTable);
+                $select = $conn->select()
+                    ->from($categoryTable, ['url_key', 'name'])
+                    ->where('is_active = ?', 1)
+                    ->where('url_key IS NOT NULL')
+                    ->where('url_key != ?', '');
+                if (isset($cols['sort_order'])) {
+                    $select->order('sort_order ASC');
+                }
+                $select->order('name ASC');
+                foreach ($conn->fetchAll($select) as $row) {
+                    $name = trim((string) ($row['name'] ?? ''));
+                    $key  = trim((string) ($row['url_key'] ?? ''));
+                    if ($name === '' || $key === '') {
+                        continue;
+                    }
+                    $out[] = [
+                        'title' => $name,
+                        'url'   => $baseUrl . $base . '/category/' . $key,
+                    ];
+                }
+            }
+
+            if ($hasItems) {
+                $cols = $conn->describeTable($itemTable);
+                $select = $conn->select()
+                    ->from(['i' => $itemTable], ['url_key', 'question'])
+                    ->where('i.url_key IS NOT NULL')
+                    ->where('i.url_key != ?', '');
+                if (isset($cols['is_active'])) {
+                    $select->where('i.is_active = ?', 1);
+                }
+                if ($hasItemStore) {
+                    $select->join(
+                        ['s' => $itemStore],
+                        's.item_id = i.item_id AND s.store_id IN (0, ' . (int) $storeId . ')',
+                        []
+                    )->group('i.item_id');
+                }
+                if (isset($cols['sort_order'])) {
+                    $select->order('i.sort_order ASC');
+                }
+                $select->order('i.question ASC');
+                foreach ($conn->fetchAll($select) as $row) {
+                    $title = trim((string) ($row['question'] ?? ''));
+                    $key   = trim((string) ($row['url_key'] ?? ''));
+                    if ($title === '' || $key === '') {
+                        continue;
+                    }
+                    $out[] = [
+                        'title' => $title,
+                        'url'   => $baseUrl . $base . '/item/' . $key,
+                    ];
+                }
+            }
+            return $out;
+        } catch (\Throwable $e) {
+            $this->logger->info('[Panth_HtmlSitemap] faqs section failed: ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Dynamic Forms section.
+     *
+     * **Conditional**: returns [] when the `panth_dynamic_form` table
+     * is missing. Skips widget-only forms (form_type = 'widget') —
+     * they don't have a standalone URL.
+     *
+     * @return array<int, array{title: string, url: string}>
+     */
+    public function getDynamicForms(): array
+    {
+        try {
+            $store    = $this->storeManager->getStore();
+            $storeId  = (int) $store->getId();
+            $baseUrl  = rtrim((string) $store->getBaseUrl(), '/') . '/';
+            $conn     = $this->resource->getConnection();
+            $table    = $this->resource->getTableName('panth_dynamic_form');
+
+            if (!$conn->isTableExists($table)) {
+                return [];
+            }
+
+            $cols = $conn->describeTable($table);
+            $columns = ['url_key', 'title', 'name'];
+            $select = $conn->select()
+                ->from($table, array_intersect(['url_key', 'title', 'name'], array_keys($cols)))
+                ->where('url_key IS NOT NULL')
+                ->where('url_key != ?', '');
+            if (isset($cols['is_active'])) {
+                $select->where('is_active = ?', 1);
+            }
+            if (isset($cols['form_type'])) {
+                $select->where('form_type IN (?)', ['page', 'both']);
+            }
+            if (isset($cols['store_id'])) {
+                $select->where('store_id IN (?)', [0, $storeId]);
+            }
+
+            $out = [];
+            foreach ($conn->fetchAll($select) as $row) {
+                $key = trim((string) ($row['url_key'] ?? ''));
+                if ($key === '') {
+                    continue;
+                }
+                $title = trim((string) ($row['title'] ?? ''));
+                if ($title === '') {
+                    $title = trim((string) ($row['name'] ?? '')); // admin name fallback
+                }
+                if ($title === '') {
+                    $title = $key;
+                }
+                $out[] = [
+                    'title' => $title,
+                    'url'   => $baseUrl . 'pages/' . $key,
+                ];
+            }
+            return $out;
+        } catch (\Throwable $e) {
+            $this->logger->info('[Panth_HtmlSitemap] dynamic-forms section failed: ' . $e->getMessage());
             return [];
         }
     }
