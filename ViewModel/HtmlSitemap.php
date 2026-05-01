@@ -766,7 +766,7 @@ class HtmlSitemap implements ArgumentInterface
                 return [];
             }
 
-            $base = trim((string) ($this->config->getValue('panth_testimonials/general/base_url', $storeId)
+            $base = trim((string) ($this->config->getValue('panth_testimonials/general/route', $storeId)
                 ?: 'testimonials'), '/') ?: 'testimonials';
 
             $out = [];
