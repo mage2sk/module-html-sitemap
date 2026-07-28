@@ -62,19 +62,19 @@
                 <field id="show_testimonials" translate="label comment" type="select" sortOrder="72" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Show Testimonials</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>Optional integration — appears only when Panth_Testimonials is installed. Otherwise the section silently renders nothing.</comment>
+                    <comment>Optional integration - appears only when Panth_Testimonials is installed. Otherwise the section silently renders nothing.</comment>
                     <depends><field id="enabled">1</field></depends>
                 </field>
                 <field id="show_faqs" translate="label comment" type="select" sortOrder="74" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Show FAQs</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>Optional integration — appears only when Panth_Faq is installed.</comment>
+                    <comment>Optional integration - appears only when Panth_Faq is installed.</comment>
                     <depends><field id="enabled">1</field></depends>
                 </field>
                 <field id="show_dynamic_forms" translate="label comment" type="select" sortOrder="76" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Show Dynamic Forms</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>Optional integration — appears only when Panth_DynamicForms is installed and at least one form has form_type = page or both.</comment>
+                    <comment>Optional integration - appears only when Panth_DynamicForms is installed and at least one form has form_type = page or both.</comment>
                     <depends><field id="enabled">1</field></depends>
                 </field>
                 <field id="show_custom_links" translate="label" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -115,7 +115,7 @@
                 <field id="products_per_page" translate="label comment" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Products Per Page</label>
                     <validate>validate-digits</validate>
-                    <comment>Paginate the product list for large catalogs. Range: 50–2000. Default 500. The sitemap handles 100k+ products via pagination (?p=N).</comment>
+                    <comment>Paginate the product list for large catalogs. Range: 50-2000. Default 500. The sitemap handles 100k+ products via pagination (?p=N).</comment>
                     <depends>
                         <field id="enabled">1</field>
                         <field id="show_products">1</field>

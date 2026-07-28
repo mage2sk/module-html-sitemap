@@ -19,7 +19,7 @@
                 <show_search_field>0</show_search_field>
                 <products_per_page>500</products_per_page>
                 <!--
-                  Optional integrations — toggles surface only the
+                  Optional integrations - toggles surface only the
                   sections whose source modules are installed. When a
                   source module is missing the corresponding section
                   silently renders nothing regardless of the toggle.

@@ -119,7 +119,7 @@ Performance • SEO • Adobe Commerce Cloud
 - **CMS pages list** with automatic exclusion of the homepage and `no-route`. Extra exclusions are configurable with a comma-separated list.
 
 ### Admin Controls
-- **17 configuration settings** under Stores → Configuration → Panth Extensions → HTML Sitemap.
+- **17 configuration settings** under Stores -> Configuration -> Panth Extensions -> HTML Sitemap.
 - **Store switcher section** that lists all active stores with their base URLs, shown when enabled.
 - **Custom links section** with a free-form textarea, one link per line in `URL | Label` format.
 - **Meta title and meta description** fields so the sitemap page has the right SEO metadata.
@@ -187,14 +187,14 @@ bin/magento module:status Panth_HtmlSitemap
 
 After install, visit `https://your-store.example/sitemap` and open:
 ```
-Admin → Stores → Configuration → Panth Extensions → HTML Sitemap
+Admin -> Stores -> Configuration -> Panth Extensions -> HTML Sitemap
 ```
 
 ---
 
 ## Configuration
 
-Go to **Stores → Configuration → Panth Extensions → HTML Sitemap** (or use the direct link under the **Panth Infotech** admin sidebar menu).
+Go to **Stores -> Configuration -> Panth Extensions -> HTML Sitemap** (or use the direct link under the **Panth Infotech** admin sidebar menu).
 
 | Setting | Group | Default | Description |
 |---|---|---|---|
@@ -232,7 +232,7 @@ Go to **Stores → Configuration → Panth Extensions → HTML Sitemap** (or use
 
 ## Hiding a Category
 
-Every category has an **"Exclude from HTML Sitemap"** field at **Catalog → Categories → {category} → Search Engine Optimization**. Set it to **Yes** to hide that category from the rendered tree. Flush the sitemap layout cache after making changes.
+Every category has an **"Exclude from HTML Sitemap"** field at **Catalog -> Categories -> {category} -> Search Engine Optimization**. Set it to **Yes** to hide that category from the rendered tree. Flush the sitemap layout cache after making changes.
 
 ---
 
@@ -255,7 +255,7 @@ Benchmarked render time per page is roughly constant regardless of total catalog
 
 ![Admin Configuration - Stores - Configuration - Panth Infotech - HTML Sitemap](docs/admin-configuration.png)
 
-*All settings at **Stores → Configuration → Panth Infotech → HTML Sitemap** including the master switch, category tree controls, product grid controls, CMS pages, optional integrations, store switcher, custom links, meta fields, and the client-side search toggle.*
+*All settings at **Stores -> Configuration -> Panth Infotech -> HTML Sitemap** including the master switch, category tree controls, product grid controls, CMS pages, optional integrations, store switcher, custom links, meta fields, and the client-side search toggle.*
 
 ---
 
