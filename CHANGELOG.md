@@ -4,6 +4,13 @@ All notable changes to this extension are documented here. The format is
 based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.0.11] - 2026-08-28
+
+### Fixed
+- **Template is safe under an enforced Content-Security-Policy.** The Print button, the product thumbnail fallback and the footer credit no longer use inline `onclick` / `onerror` handlers, so the page keeps working on stores whose `script-src` has no `'unsafe-inline'`. The thumbnail fallback is now a single delegated capture-phase `error` listener on the sitemap root (it also covers images added later), and the letter placeholder is built with `textContent` instead of `innerHTML`.
+- On Hyva, the template's script block is registered with Hyva's CSP helper (`$hyvaCsp->registerInlineScript()`) so it receives a nonce or hash when `'unsafe-inline'` is disabled. No effect on Luma or on Magento's default report-only policy.
+- Two stray closing tags that were emitted after the sitemap's `</script>` on every page are gone.
+
 ## [1.0.10]
 
 ### Changed

@@ -302,6 +302,9 @@ Benchmarked render time per page is roughly constant regardless of total catalog
 ### Does it work on Hyva themes without Alpine.js?
 Yes. The template is plain PHP with vanilla JS and prefix-scoped CSS. It has no Alpine component, no RequireJS define, and no mage-init attributes, so it loads and works the same way on both Hyva and Luma.
 
+### Does it work with an enforced Content-Security-Policy?
+Yes. The template has no inline event handlers; the Print button, search filter and thumbnail fallback are bound from the page's single script block. On Hyva that block is registered through Hyva's CSP helper and receives a nonce or hash when `'unsafe-inline'` is disabled. Luma has no nonce mechanism of its own, so a Luma store still needs `'unsafe-inline'` for script blocks, as it does for Magento's own templates.
+
 ### How does the module handle large catalogs?
 The product section paginates via `?p=N`. The default page size is 500 products. The underlying SQL uses `LIMIT/OFFSET` on indexed EAV joins and a single memoised `COUNT(DISTINCT)` query, so render time stays roughly constant no matter how many products are in the store. A hard cap of 2,000 pages prevents runaway URLs.
 
